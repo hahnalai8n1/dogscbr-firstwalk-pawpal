@@ -1,0 +1,138 @@
+// Sourced from DogsCBR's existing "OHS Program Test" Google Form + OHS Guidelines doc.
+// Every correct answer and hint is a direct paraphrase of the official OHS Guidelines,
+// so the quiz stays a faithful (just friendlier) version of the real vetting test.
+export const quizQuestions = [
+  {
+    id: "bring",
+    prompt: "What do you need to bring on the walk?",
+    type: "multi",
+    options: [
+      { id: "shoes", label: "Enclosed, non-slip footwear" },
+      { id: "id", label: "Physical photo ID" },
+      { id: "phone", label: "Your phone" },
+      { id: "leash", label: "Your own leash" },
+    ],
+    correct: ["shoes", "id", "phone"],
+    hint: "Guidelines: wear fully enclosed non-slip shoes, bring a valid physical photo ID to sign in, and always carry your phone in case you need to contact staff.",
+  },
+  {
+    id: "id-handling",
+    prompt: "What should you do with your photo ID before starting a walk?",
+    type: "single",
+    options: [
+      { id: "keep", label: "Keep it with you during the walk" },
+      { id: "hand", label: "Hand it to a DogsCBR staff member, collect it when you return the dog" },
+    ],
+    correct: ["hand"],
+    hint: "Guidelines: hand your ID to a staff member before the walk, and collect it once you return the dog.",
+  },
+  {
+    id: "pulling",
+    prompt: "The dog is pulling you somewhere you don't want to go. What do you do?",
+    type: "single",
+    options: [
+      { id: "tug", label: "Tug the lead to redirect them" },
+      { id: "carry", label: "Pick the dog up and carry it" },
+      { id: "wait", label: "Stand your ground, don't tug — wait it out" },
+    ],
+    correct: ["wait"],
+    hint: "Guidelines: be gentle and patient. Stand your ground without tugging on the lead and let the dog settle.",
+  },
+  {
+    id: "distance",
+    prompt: "How far away from other dogs should you stay?",
+    type: "single",
+    options: [
+      { id: "5", label: "Less than 5 metres" },
+      { id: "5-10", label: "5–10 metres" },
+      { id: "10", label: "At least 10 metres" },
+      { id: "any", label: "Doesn't matter" },
+    ],
+    correct: ["10"],
+    hint: "Guidelines: always walk at least 10 metres away from any other dog. If contact is unavoidable, keep a tight leash and wait for them to pass.",
+  },
+  {
+    id: "lead-hold",
+    prompt: "How should you hold the lead?",
+    type: "single",
+    options: [
+      { id: "wrap", label: "Wrap the entire lead around your hand" },
+      { id: "loop", label: "Slide your hand through the loop and grip the lead" },
+      { id: "loop-only", label: "Only grab the loop, nothing else" },
+    ],
+    correct: ["loop"],
+    hint: "Guidelines: always keep the lead secured around your wrist — hand through the loop, then grip the lead.",
+  },
+  {
+    id: "detach",
+    prompt: "When can you take the lead off the dog?",
+    type: "single",
+    options: [
+      { id: "good", label: "When the dog is being well behaved" },
+      { id: "park", label: "When you're in a park or open space" },
+      { id: "never", label: "Never — don't detach it" },
+    ],
+    correct: ["never"],
+    hint: "Guidelines: never detach the lead or remove the harness. If the harness seems loose, return to staff.",
+  },
+  {
+    id: "water",
+    prompt: "On a 60+ minute walk, how often should you offer the dog water?",
+    type: "single",
+    options: [
+      { id: "5m", label: "Every 5 minutes" },
+      { id: "30m", label: "Every 30 minutes" },
+      { id: "1h", label: "Every hour" },
+      { id: "end", label: "Once the walk is finished" },
+    ],
+    correct: ["30m"],
+    hint: "Guidelines: for walks longer than 60 minutes, stop to give the dog water every 30 minutes.",
+  },
+  {
+    id: "harness",
+    prompt: "You notice the dog's harness feels loose. What do you do?",
+    type: "single",
+    options: [
+      { id: "self-fix", label: "Try to secure it yourself" },
+      { id: "remove", label: "Remove it to tighten" },
+      { id: "staff", label: "Contact a DogsCBR staff member" },
+    ],
+    correct: ["staff"],
+    hint: "Guidelines: never remove the harness yourself. Return to staff if it seems loose.",
+  },
+  {
+    id: "where",
+    prompt: "Where are you allowed to walk the dog?",
+    type: "single",
+    options: [
+      { id: "anywhere", label: "Anywhere you like" },
+      { id: "approved", label: "Public areas and approved walking routes" },
+    ],
+    correct: ["approved"],
+    hint: "Guidelines: stay in public areas, or use DogsCBR's recommended walking routes.",
+  },
+  {
+    id: "minors",
+    prompt: "Can someone under 18 walk a dog?",
+    type: "single",
+    options: [
+      { id: "yes", label: "Yes, on their own" },
+      { id: "no", label: "No" },
+      { id: "adult", label: "Yes, but with an accompanying adult Community Member" },
+    ],
+    correct: ["adult"],
+    hint: "Guidelines: participants under 18 must sign in with an accompanying adult Community Member and share the dog's lead with them at all times.",
+  },
+  {
+    id: "eating",
+    prompt: "The dog tries to eat something off the ground. What do you do?",
+    type: "single",
+    options: [
+      { id: "grab", label: "Grab it from the dog's mouth" },
+      { id: "move", label: "Gently move the dog away and contact staff" },
+      { id: "tug", label: "Forcefully tug the dog away" },
+    ],
+    correct: ["move"],
+    hint: "Guidelines: don't try to dislodge or grab the item. Gently move the dog away and contact a staff member immediately.",
+  },
+];
