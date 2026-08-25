@@ -10,6 +10,9 @@
  * Quiz Attempts | ID File | Signature File | Induction Accepted
  */
 
+// Just the ID segment, not the full URL: docs.google.com/spreadsheets/d/<THIS_PART>/edit
+// Only needed for a standalone script (i.e. not created via Extensions → Apps Script from inside the Sheet).
+const SHEET_ID = "";
 const SHEET_NAME = "Register";
 const ID_FOLDER_NAME = "Community Member IDs";
 const SIGNATURE_FOLDER_NAME = "Signed Induction Forms";
@@ -48,8 +51,12 @@ function generateCmNumber_() {
   return `${CM_NUMBER_PREFIX}${n}`;
 }
 
+function getSpreadsheet_() {
+  return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+}
+
 function getSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = getSpreadsheet_();
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);

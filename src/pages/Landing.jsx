@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PawPrint, Dog, ArrowRight, HeartHandshake } from "lucide-react";
+import { PawPrint, ArrowRight, HeartHandshake } from "lucide-react";
 import Button from "../components/Button";
 import PawBackground from "../components/PawBackground";
 import { useWizard } from "../context/WizardContext";
+import dogscbrLogo from "../assets/dogscbr-logo.jpg";
 
 function calcAge(dobStr) {
   if (!dobStr) return null;
@@ -34,7 +35,8 @@ export default function Landing() {
     /\S+@\S+\.\S+/.test(form.email) &&
     form.phone.trim() &&
     form.dob &&
-    (!isMinor || (form.guardianName.trim() && form.guardianContact.trim()));
+    (!isMinor || (form.guardianName.trim() && form.guardianContact.trim())) &&
+    (!form.hasAccessibilityNeeds || form.accessibilityNotes.trim());
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -48,17 +50,17 @@ export default function Landing() {
     <div className="relative min-h-screen overflow-hidden">
       <PawBackground />
       <div className="mx-auto flex min-h-screen max-w-3xl flex-col items-center px-4 py-14 sm:px-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, rotate: -8 }}
+        <motion.img
+          src={dogscbrLogo}
+          alt="Dogs Canberra"
+          initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 14 }}
-          className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-navy text-cream shadow-lg"
-        >
-          <Dog size={32} />
-        </motion.div>
+          className="mb-4 w-48 rounded-2xl shadow-lg sm:w-56"
+        />
 
         <p className="mb-2 flex items-center gap-1 font-display text-sm font-bold uppercase tracking-widest text-amber">
-          <PawPrint size={14} /> Dogs Canberra Community Program
+          <PawPrint size={14} /> Community Program
         </p>
         <h1 className="text-center font-display text-4xl font-extrabold leading-tight text-navy sm:text-5xl">
           Become a Community Member
@@ -160,13 +162,20 @@ export default function Landing() {
               about before my first walk.
             </label>
             {form.hasAccessibilityNeeds && (
-              <textarea
-                className="input mt-3"
-                rows={2}
-                placeholder="Totally optional — just helps us match you with the right dog."
-                value={form.accessibilityNotes}
-                onChange={(e) => setField("accessibilityNotes", e.target.value)}
-              />
+              <div className="mt-3">
+                <textarea
+                  className="input"
+                  rows={2}
+                  placeholder="Tell us a little about it — helps us match you with the right dog and prepare properly."
+                  value={form.accessibilityNotes}
+                  onChange={(e) => setField("accessibilityNotes", e.target.value)}
+                />
+                {touched && !form.accessibilityNotes.trim() && (
+                  <span className="mt-1 block text-xs text-rose-500">
+                    Please add a few details so staff know what to prepare for
+                  </span>
+                )}
+              </div>
             )}
           </div>
 
