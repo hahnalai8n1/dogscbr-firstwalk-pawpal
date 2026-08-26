@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import { PawPrint, IdCard, MessageCircle, Backpack, MapPin } from "lucide-react";
 import Button from "../components/Button";
-import PawBackground from "../components/PawBackground";
 import MembershipCard from "../components/MembershipCard";
 import { useWizard } from "../context/WizardContext";
 
@@ -59,21 +58,19 @@ export default function Confirmation() {
   });
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      <PawBackground />
-      <div className="mx-auto max-w-4xl px-4 py-14 sm:px-8">
-        <div className="text-center">
-          <p className="mb-2 flex items-center justify-center gap-1 font-display text-sm font-bold uppercase tracking-widest text-amber">
-            <PawPrint size={14} /> Application complete
-          </p>
-          <h1 className="font-display text-4xl font-extrabold text-navy sm:text-5xl">
-            Welcome to the pack, {state.step0.fullName.split(" ")[0]}!
-          </h1>
-          <p className="mx-auto mt-3 max-w-md text-navy/70">
-            Your induction, OHS quiz, ID and signature are all on file. Here's your membership —
-            you'll need your number to book walks.
-          </p>
-        </div>
+    <div>
+      <div className="text-center">
+        <p className="mb-2 flex items-center justify-center gap-1 font-display text-sm font-bold uppercase tracking-widest text-amber">
+          <PawPrint size={14} /> Application complete
+        </p>
+        <h1 className="font-display text-4xl font-extrabold text-navy sm:text-5xl">
+          Welcome to the pack, {state.step0.fullName.split(" ")[0]}!
+        </h1>
+        <p className="mx-auto mt-3 max-w-md text-navy/70">
+          Your induction, OHS quiz, ID and signature are all on file. Here's your membership —
+          you'll need your number to book walks.
+        </p>
+      </div>
 
         <div className="mt-10 grid gap-8 md:grid-cols-2 md:items-start">
           <div className="flex justify-center md:justify-end md:pr-2">
@@ -105,11 +102,13 @@ export default function Confirmation() {
           </motion.div>
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <a href="https://www.dogscbr.org/dogs.html" target="_blank" rel="noreferrer">
-            <Button variant="secondary">Browse dogs & book your first walk</Button>
-          </a>
-        </div>
+      <div className="mt-10 flex flex-col items-center gap-2">
+        <a href="https://www.dogscbr.org/dogs.html" target="_blank" rel="noreferrer">
+          <Button variant="secondary">Browse dogs & book your first walk</Button>
+        </a>
+        <p className="text-xs text-navy/40">
+          Pick any dog and time that suits you — no need to wait for us to reach out.
+        </p>
       </div>
     </div>
   );

@@ -20,9 +20,20 @@ const STAFF_EMAIL = "x85561@gmail.com"; // TODO: swap for the real DogsCBR staff
 const CM_NUMBER_PREFIX = "CM";
 const CM_NUMBER_START = 1001;
 
+// Free-tier key from https://aistudio.google.com/apikey (no credit card needed).
+// Only used for the "ask about the guidelines" widget — leave blank to disable it
+// (the frontend falls back to a static message when this errors or is unset).
+const GEMINI_API_KEY = "";
+const GEMINI_MODEL = "gemini-2.5-flash";
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+
+    if (data.action === "ask") {
+      return jsonResponse_({ ok: true, answer: askGuidelines_(data.question) });
+    }
+
     const cmNumber = generateCmNumber_();
 
     const idFileUrl = data.idFile ? saveDataUrlToDrive_(data.idFile, ID_FOLDER_NAME, cmNumber) : "";
@@ -38,6 +49,46 @@ function doPost(e) {
   } catch (err) {
     return jsonResponse_({ ok: false, error: String(err) });
   }
+}
+
+// Kept in sync with src/lib/guideCards.js by hand — short enough to just paste inline.
+const OHS_GUIDELINES_TEXT = `
+- Medical emergency: tell staff immediately, they carry a First Aid kit.
+- Signing in: hand your photo ID to staff before the walk, collect it when you return the dog.
+- Footwear: fully enclosed, non-slip shoes, every walk.
+- Water: bring your own; on walks over 60 minutes, offer the dog water every 30 minutes.
+- Sun protection: wear a hat, Canberra sun is strong.
+- Under 18s: must walk with an accompanying adult Community Member, sharing one lead at all times.
+- Where to walk: public areas or DogsCBR's recommended routes only.
+- Distance from other dogs: at least 10 metres.
+- Lead handling: loop it securely around your wrist and grip it; never detach the lead or remove the harness.
+- Waste: pick up with provided bags, bin it in any public bin.
+- Stay reachable: always carry your phone.
+- Loose harness: don't fix it yourself, find a staff member.
+- If the dog tries to eat something: gently move it away and contact staff, don't grab or forcefully tug.
+`;
+
+function askGuidelines_(question) {
+  if (!GEMINI_API_KEY || !question) {
+    return "I can't look that up right now — best to check the guide cards above, or ask a DogsCBR staff member.";
+  }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+  const prompt =
+    "You are a friendly dog, speaking in first person, helping a new DogsCBR volunteer understand the walking " +
+    "OHS guidelines below. Answer ONLY using these guidelines, in 2-3 short sentences. If the question isn't " +
+    "answered by them, say you're not sure and suggest asking a staff member — don't make anything up.\n\n" +
+    "GUIDELINES:\n" + OHS_GUIDELINES_TEXT + "\n\nQUESTION: " + question;
+
+  const res = UrlFetchApp.fetch(url, {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+    muteHttpExceptions: true,
+  });
+
+  const body = JSON.parse(res.getContentText());
+  const text = body?.candidates?.[0]?.content?.parts?.[0]?.text;
+  return text ? text.trim() : "I couldn't quite fetch an answer for that — try asking a staff member.";
 }
 
 function doGet() {

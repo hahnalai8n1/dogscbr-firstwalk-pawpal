@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import confetti from "canvas-confetti";
-import { Check, X, Lightbulb, PartyPopper, ArrowRight } from "lucide-react";
+import { Lightbulb, PartyPopper, ArrowRight } from "lucide-react";
 import PageShell from "../components/PageShell";
 import Button from "../components/Button";
+import TileOptions from "../components/quiz/TileOptions";
+import BackpackQuestion from "../components/quiz/BackpackQuestion";
 import { useWizard } from "../context/WizardContext";
 import { quizQuestions } from "../lib/quizData";
 
@@ -130,42 +132,25 @@ export default function Quiz() {
         >
           <h2 className="mb-5 font-display text-xl font-bold text-navy">{question.prompt}</h2>
 
-          <div className="space-y-2.5">
-            {question.options.map((opt) => {
-              const isSelected = selected.includes(opt.id);
-              const revealCorrect = status === "wrong" && question.correct.includes(opt.id);
-              const revealWrong = status === "wrong" && isSelected && !question.correct.includes(opt.id);
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  onClick={() => toggle(opt.id)}
-                  disabled={status === "correct"}
-                  className={`flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3.5 text-left text-sm font-medium transition-colors ${
-                    status === "correct" && question.correct.includes(opt.id)
-                      ? "border-emerald-400 bg-emerald-50 text-emerald-900"
-                      : revealWrong
-                      ? "border-rose-300 bg-rose-50 text-rose-700"
-                      : revealCorrect
-                      ? "border-emerald-300 bg-emerald-50/60 text-emerald-800"
-                      : isSelected
-                      ? "border-navy bg-navy/5 text-navy"
-                      : "border-sand bg-white text-navy/80 hover:border-navy/30"
-                  }`}
-                >
-                  <span
-                    className={`flex h-5 w-5 shrink-0 items-center justify-center border-2 text-[10px] ${
-                      question.type === "single" ? "rounded-full" : "rounded-md"
-                    } ${isSelected ? "border-navy bg-navy text-cream" : "border-sand"}`}
-                  >
-                    {isSelected && <Check size={12} strokeWidth={3} />}
-                  </span>
-                  {opt.label}
-                  {revealWrong && <X size={16} className="ml-auto text-rose-500" />}
-                </button>
-              );
-            })}
-          </div>
+          {question.render === "backpack" ? (
+            <BackpackQuestion
+              options={question.options}
+              selected={selected}
+              status={status}
+              correct={question.correct}
+              onToggle={toggle}
+              disabled={status === "correct"}
+            />
+          ) : (
+            <TileOptions
+              options={question.options}
+              selected={selected}
+              status={status}
+              correct={question.correct}
+              onToggle={toggle}
+              disabled={status === "correct"}
+            />
+          )}
 
           <AnimatePresence>
             {status === "wrong" && (

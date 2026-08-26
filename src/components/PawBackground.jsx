@@ -4,11 +4,20 @@ import { PawPrint } from "lucide-react";
 // Mirrors the scattered-paw-print motif from dogscbr.org's own banner.
 const PAWS = [
   { top: "6%", left: "4%", size: 28, rotate: -18 },
+  { top: "10%", left: "34%", size: 16, rotate: 8 },
   { top: "14%", left: "88%", size: 22, rotate: 24 },
+  { top: "22%", left: "62%", size: 18, rotate: -22 },
+  { top: "30%", left: "16%", size: 14, rotate: 30 },
   { top: "42%", left: "2%", size: 18, rotate: 10 },
+  { top: "38%", left: "96%", size: 16, rotate: -14 },
+  { top: "54%", left: "44%", size: 15, rotate: 18 },
+  { top: "62%", left: "24%", size: 20, rotate: -8 },
   { top: "68%", left: "92%", size: 26, rotate: -30 },
+  { top: "74%", left: "56%", size: 16, rotate: 26 },
   { top: "86%", left: "8%", size: 20, rotate: 16 },
+  { top: "80%", left: "38%", size: 14, rotate: -20 },
   { top: "92%", left: "80%", size: 24, rotate: -12 },
+  { top: "96%", left: "18%", size: 16, rotate: 12 },
 ];
 
 export default function PawBackground() {

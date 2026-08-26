@@ -16,7 +16,7 @@ export default function PageShell({
 }) {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="mx-auto max-w-2xl">
       {eyebrow && (
         <p className="mb-2 font-display text-sm font-bold uppercase tracking-widest text-amber">
           {eyebrow}

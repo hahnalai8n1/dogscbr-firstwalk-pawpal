@@ -26,3 +26,25 @@ export async function submitApplication(payload) {
   if (!res.ok) throw new Error(`Submission failed (${res.status})`);
   return res.json();
 }
+
+const MOCK_ANSWERS = [
+  "Guide dog says: check the cards above — that's exactly where I keep my best advice!",
+  "Woof! I'm just a mock response right now (no backend hooked up yet), but a real answer would land here.",
+];
+
+export async function askGuidelines(question) {
+  if (!ENDPOINT) {
+    await new Promise((r) => setTimeout(r, 600));
+    return MOCK_ANSWERS[Math.floor(Math.random() * MOCK_ANSWERS.length)];
+  }
+
+  const res = await fetch(ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ action: "ask", question }),
+  });
+
+  if (!res.ok) throw new Error(`Ask failed (${res.status})`);
+  const data = await res.json();
+  return data.answer;
+}
