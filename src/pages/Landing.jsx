@@ -104,7 +104,7 @@ export default function Landing() {
             <Field label="Date of birth" required error={touched && !form.dob}>
               <input
                 type="date"
-                className="input max-w-full"
+                className="input max-w-[80%]"
                 value={form.dob}
                 onChange={(e) => setField("dob", e.target.value)}
                 max={new Date().toISOString().slice(0, 10)}
