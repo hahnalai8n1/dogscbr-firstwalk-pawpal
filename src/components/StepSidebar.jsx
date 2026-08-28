@@ -92,7 +92,7 @@ export default function StepSidebar() {
           );
         })}
       </ol>
-      <div id="sidebar-slot" className="mt-auto pt-6" />
+      <div id="sidebar-slot" className="mt-36 pt-6" />
     </nav>
   );
 }

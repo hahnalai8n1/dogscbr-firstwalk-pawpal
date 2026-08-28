@@ -20,10 +20,9 @@ const STAFF_EMAIL = "x85561@gmail.com"; // TODO: swap for the real DogsCBR staff
 const CM_NUMBER_PREFIX = "CM";
 const CM_NUMBER_START = 1001;
 
-// Free-tier key from https://aistudio.google.com/apikey (no credit card needed).
-// Only used for the "ask about the guidelines" widget — leave blank to disable it
-// (the frontend falls back to a static message when this errors or is unset).
-const GEMINI_API_KEY = "";
+// Add GEMINI_API_KEY under Project Settings → Script Properties. Keeping the
+// secret out of this source file prevents it being committed to Git.
+const GEMINI_API_KEY_PROPERTY = "GEMINI_API_KEY";
 const GEMINI_MODEL = "gemini-2.5-flash";
 
 function doPost(e) {
@@ -69,10 +68,11 @@ const OHS_GUIDELINES_TEXT = `
 `;
 
 function askGuidelines_(question) {
-  if (!GEMINI_API_KEY || !question) {
+  const apiKey = PropertiesService.getScriptProperties().getProperty(GEMINI_API_KEY_PROPERTY);
+  if (!apiKey || !question) {
     return "I can't look that up right now — best to check the guide cards above, or ask a DogsCBR staff member.";
   }
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const prompt =
     "You are a friendly dog, speaking in first person, helping a new DogsCBR volunteer understand the walking " +
     "OHS guidelines below. Answer ONLY using these guidelines, in 2-3 short sentences. If the question isn't " +

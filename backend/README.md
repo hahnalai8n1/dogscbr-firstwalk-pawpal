@@ -28,7 +28,10 @@ Either way:
    - `STAFF_EMAIL` — the inbox that should receive new-application summaries.
    - `CM_NUMBER_START` — where numbering should begin (matches whatever your
      existing register is currently up to, so numbers don't collide).
-3. Click **Deploy → New deployment → Web app**.
+3. Open **Project Settings → Script Properties**, add a property named
+   `GEMINI_API_KEY`, and paste the key from Google AI Studio as its value. Do
+   not put this key in the frontend `.env` or in `Code.gs`.
+4. Click **Deploy → New deployment → Web app**.
    - Execute as: **Me**
    - Who has access: **Anyone**
    - You'll hit a **"Google hasn't verified this app"** screen when
@@ -37,11 +40,16 @@ Either way:
      name) (unsafe)** → **Allow**. It's safe: this is code you (or your
      teammate) wrote, running under your own account — nothing is sent
      anywhere else.
-4. Copy the deployment URL (ends in `/exec`) into the frontend's `.env` as
+5. Copy the deployment URL (ends in `/exec`) into the frontend's `.env` as
    `VITE_APPS_SCRIPT_URL`.
-5. Send a test application through the site and check: a new row appears in
+6. Send a test application through the site and check: a new row appears in
    a "Register" tab, files land in the "Community Member IDs" and "Signed
    Induction Forms" Drive folders, and both emails arrive.
+
+If this web app is already deployed and you change `Code.gs`, use **Deploy →
+Manage deployments → Edit → New version → Deploy**. The existing `/exec` URL
+continues to work. Changing only the `GEMINI_API_KEY` Script Property later
+does not require another version because the deployed code reads it at runtime.
 
 ## Notes
 

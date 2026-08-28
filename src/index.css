@@ -60,9 +60,9 @@
   .input[type="date"] {
     display: block;
     box-sizing: border-box;
-    inline-size: 100%;
+    inline-size: 80%;
     min-inline-size: 0;
-    max-inline-size: 100%;
+    max-inline-size: 80%;
     overflow: hidden;
   }
 
