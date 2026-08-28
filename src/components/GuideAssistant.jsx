@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { PawPrint, X, Send, Loader2 } from "lucide-react";
@@ -26,11 +26,13 @@ function useAsk() {
   return { question, setQuestion, answer, loading, handleAsk };
 }
 
-function AskForm({ question, setQuestion, loading }) {
+function AskForm({ question, setQuestion, loading, inputRef }) {
   return (
     <div className="flex gap-2">
       <input
+        ref={inputRef}
         className="input flex-1 py-2 text-sm"
+        aria-label="Question about the OHS guidelines"
         placeholder="e.g. can I let go of the lead?"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
@@ -38,6 +40,7 @@ function AskForm({ question, setQuestion, loading }) {
       <button
         type="submit"
         disabled={loading || !question.trim()}
+        aria-label={loading ? "Sending question" : "Send question"}
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy text-cream disabled:opacity-40"
       >
         <Send size={16} />
@@ -91,7 +94,21 @@ function SidebarAssistant() {
 // (backdrop + slide-up panel) so it never sits ambiguously on top of content.
 function MobileAssistant() {
   const [open, setOpen] = useState(false);
+  const headingId = useId();
+  const panelId = useId();
+  const inputRef = useRef(null);
   const { question, setQuestion, answer, loading, handleAsk } = useAsk();
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    inputRef.current?.focus();
+    function closeOnEscape(event) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
 
   return (
     <>
@@ -101,6 +118,8 @@ function MobileAssistant() {
         whileTap={{ scale: 0.95 }}
         className="fixed bottom-36 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-cream shadow-xl shadow-navy/20 sm:bottom-24"
         aria-label="Ask about the guidelines"
+        aria-expanded={open}
+        aria-controls={panelId}
       >
         <PawPrint size={22} />
       </motion.button>
@@ -113,9 +132,14 @@ function MobileAssistant() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
+              aria-hidden="true"
               className="fixed inset-0 z-40 bg-navy/30 backdrop-blur-sm"
             />
             <motion.div
+              id={panelId}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={headingId}
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
@@ -123,10 +147,11 @@ function MobileAssistant() {
               className="fixed inset-x-0 bottom-0 z-50 rounded-t-3xl border-t border-sand bg-white p-5 pb-8 shadow-2xl"
             >
               <div className="mb-3 flex items-center justify-between">
-                <p className="flex items-center gap-1.5 font-display text-sm font-bold text-navy">
+                <p id={headingId} className="flex items-center gap-1.5 font-display text-sm font-bold text-navy">
                   <PawPrint size={14} className="text-amber" /> Ask about the guidelines
                 </p>
                 <button
+                  type="button"
                   onClick={() => setOpen(false)}
                   className="flex h-8 w-8 items-center justify-center rounded-full text-navy/40 hover:bg-cream-light"
                   aria-label="Close"
@@ -136,7 +161,7 @@ function MobileAssistant() {
               </div>
               <AnswerBox loading={loading} answer={answer} />
               <form onSubmit={handleAsk}>
-                <AskForm question={question} setQuestion={setQuestion} loading={loading} />
+                <AskForm question={question} setQuestion={setQuestion} loading={loading} inputRef={inputRef} />
               </form>
             </motion.div>
           </>

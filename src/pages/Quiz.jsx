@@ -5,8 +5,8 @@ import confetti from "canvas-confetti";
 import { Lightbulb, PartyPopper, ArrowRight } from "lucide-react";
 import PageShell from "../components/PageShell";
 import Button from "../components/Button";
-import TileOptions from "../components/quiz/TileOptions";
 import BackpackQuestion from "../components/quiz/BackpackQuestion";
+import ScenarioQuestion from "../components/quiz/ScenarioQuestion";
 import { useWizard } from "../context/WizardContext";
 import { quizQuestions } from "../lib/quizData";
 
@@ -16,8 +16,14 @@ function sameSet(a, b) {
   return b.every((x) => s.has(x));
 }
 
+function celebrate(options) {
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    confetti(options);
+  }
+}
+
 export default function Quiz() {
-  const { state, update } = useWizard();
+  const { update } = useWizard();
   const navigate = useNavigate();
 
   const [qIndex, setQIndex] = useState(0);
@@ -28,7 +34,7 @@ export default function Quiz() {
   const [finished, setFinished] = useState(false);
 
   const question = quizQuestions[qIndex];
-  const progressPct = (qIndex / quizQuestions.length) * 100;
+  const progressPct = ((qIndex + 1) / quizQuestions.length) * 100;
 
   useEffect(() => {
     setSelected([]);
@@ -54,7 +60,7 @@ export default function Quiz() {
     if (correct) {
       setStatus("correct");
       if (attemptsSoFar === 0) setFirstTryCorrect((c) => c + 1);
-      confetti({ particleCount: 60, spread: 55, startVelocity: 32, origin: { y: 0.65 } });
+      celebrate({ particleCount: 60, spread: 55, startVelocity: 32, origin: { y: 0.65 } });
     } else {
       setStatus("wrong");
       setAttemptsByQ((prev) => ({ ...prev, [question.id]: attemptsSoFar + 1 }));
@@ -69,7 +75,7 @@ export default function Quiz() {
       update({
         quiz: { completed: true, score: firstTryCorrect, total: quizQuestions.length, attempts: totalAttempts },
       });
-      confetti({ particleCount: 140, spread: 100, startVelocity: 45, origin: { y: 0.5 } });
+      celebrate({ particleCount: 140, spread: 100, startVelocity: 45, origin: { y: 0.5 } });
       setFinished(true);
     }
   }
@@ -110,7 +116,14 @@ export default function Quiz() {
       hideNext
       onBack={() => navigate("/apply/ohs-guide")}
     >
-      <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-sand/60">
+      <div
+        className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-sand/60"
+        role="progressbar"
+        aria-label="Quiz progress"
+        aria-valuemin="1"
+        aria-valuemax={quizQuestions.length}
+        aria-valuenow={qIndex + 1}
+      >
         <motion.div
           className="h-full rounded-full bg-amber"
           animate={{ width: `${progressPct}%` }}
@@ -130,7 +143,6 @@ export default function Quiz() {
           exit={{ opacity: 0, x: -24 }}
           transition={{ duration: 0.2 }}
         >
-          {question.scene && <question.scene />}
           <h2 className="mb-5 font-display text-xl font-bold text-navy">{question.prompt}</h2>
 
           {question.render === "backpack" ? (
@@ -143,15 +155,17 @@ export default function Quiz() {
               disabled={status === "correct"}
             />
           ) : (
-            <TileOptions
-              options={question.options}
+            <ScenarioQuestion
+              question={question}
               selected={selected}
               status={status}
-              correct={question.correct}
               onToggle={toggle}
-              disabled={status === "correct"}
             />
           )}
+
+          <div className="sr-only" role="status" aria-live="polite">
+            {status === "correct" ? "Correct answer." : status === "wrong" ? `Not quite. ${question.hint.replace("🐾 ", "")}` : ""}
+          </div>
 
           <AnimatePresence>
             {status === "wrong" && (

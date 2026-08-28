@@ -17,6 +17,14 @@
 }
 
 @layer base {
+  :root {
+    /* Adjust these two values to tune the whole mobile/desktop type scale. */
+    --app-font-size-mobile: 16px;
+    --app-font-size-desktop: 18px;
+  }
+  html {
+    font-size: var(--app-font-size-mobile);
+  }
   body {
     @apply bg-cream text-navy font-sans antialiased;
   }
@@ -25,7 +33,7 @@
   }
   @media (min-width: 1024px) {
     html {
-      font-size: 18px;
+      font-size: var(--app-font-size-desktop);
     }
   }
 }

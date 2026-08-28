@@ -11,14 +11,12 @@ import {
   User, Ban, Users,
   Hand, ShieldAlert, Zap,
 } from "lucide-react";
-import PullingScene from "../components/quiz/PullingScene";
 
 // Sourced from DogsCBR's existing "OHS Program Test" Google Form + OHS Guidelines doc.
 // Every correct answer and hint is a direct paraphrase of the official OHS Guidelines,
 // so the quiz stays a faithful (just friendlier) version of the real vetting test.
-// `render` picks the visual treatment in Quiz.jsx: "backpack" (drag-to-pack) or
-// "tiles" (big icon cards) — every option carries an `icon` for the tile view.
-// `scene`, if present, is a small hand-drawn illustration shown above the prompt.
+// `render: "backpack"` opts into the drag-to-pack interaction. Every other
+// question is mapped to its own accessible scenario in ScenarioQuestion.jsx.
 export const quizQuestions = [
   {
     id: "bring",
@@ -51,7 +49,6 @@ export const quizQuestions = [
     prompt: "The dog is pulling you somewhere you don't want to go. What do you do?",
     type: "single",
     render: "tiles",
-    scene: PullingScene,
     options: [
       { id: "tug", label: "Tug the lead to redirect them", icon: ArrowBigRight },
       { id: "carry", label: "Pick the dog up and carry it", icon: ArrowUpCircle },

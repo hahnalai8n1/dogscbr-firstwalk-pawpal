@@ -43,7 +43,7 @@ export default function BackpackQuestion({ options, selected, status, correct, o
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4" role="group" aria-label="Items to pack for the walk">
         {options.map((opt) => {
           const Icon = opt.icon;
           const isSelected = selected.includes(opt.id);
@@ -63,6 +63,8 @@ export default function BackpackQuestion({ options, selected, status, correct, o
               onDragEnd={(event, info) => handleDragEnd(opt.id, event, info)}
               onClick={() => !disabled && onToggle(opt.id)}
               disabled={disabled}
+              aria-pressed={isSelected}
+              aria-label={`${opt.label}${revealWrong ? ", incorrect" : ""}${locked || revealCorrect ? ", correct" : ""}`}
               className={`relative flex w-20 cursor-grab flex-col items-center gap-1.5 rounded-2xl border-2 bg-white px-2 py-3 text-center text-xs font-medium shadow-sm active:cursor-grabbing ${
                 locked
                   ? "border-emerald-400 bg-emerald-50 text-emerald-900"
