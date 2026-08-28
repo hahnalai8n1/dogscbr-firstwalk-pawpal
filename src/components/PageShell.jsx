@@ -16,14 +16,14 @@ export default function PageShell({
 }) {
   const navigate = useNavigate();
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-3xl">
       {eyebrow && (
-        <p className="mb-2 font-display text-sm font-bold uppercase tracking-widest text-amber">
+        <p className="mb-2 font-display text-base font-bold uppercase tracking-widest text-amber">
           {eyebrow}
         </p>
       )}
-      <h1 className="font-display text-3xl font-extrabold text-navy sm:text-4xl">{title}</h1>
-      {subtitle && <p className="mt-2 text-navy/70">{subtitle}</p>}
+      <h1 className="font-display text-4xl font-extrabold text-navy sm:text-5xl">{title}</h1>
+      {subtitle && <p className="mt-3 text-lg text-navy/70">{subtitle}</p>}
 
       <div className="mt-8">{children}</div>
 

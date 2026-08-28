@@ -105,7 +105,7 @@ export default function Quiz() {
   return (
     <PageShell
       eyebrow="Step 3 of 6"
-      title="OHS Program Test"
+      title="OHS Quiz"
       subtitle="All answers are in the guidelines you just read. 100% required to move on — no shame in a retry."
       hideNext
       onBack={() => navigate("/apply/ohs-guide")}
@@ -130,6 +130,7 @@ export default function Quiz() {
           exit={{ opacity: 0, x: -24 }}
           transition={{ duration: 0.2 }}
         >
+          {question.scene && <question.scene />}
           <h2 className="mb-5 font-display text-xl font-bold text-navy">{question.prompt}</h2>
 
           {question.render === "backpack" ? (

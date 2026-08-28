@@ -10,11 +10,11 @@ export default function WizardLayout() {
   return (
     <div className="relative min-h-screen">
       <PawBackground />
-      <div className="mx-auto flex min-h-screen max-w-6xl lg:border-x lg:border-sand/60 lg:bg-cream-light/40">
+      <div className="flex min-h-screen">
         <StepSidebar />
         <div className="flex min-h-screen flex-1 flex-col">
           <MobileStepBar />
-          <main className="flex-1 px-4 py-10 sm:px-8 lg:px-14">
+          <main className="flex-1 px-4 py-10 sm:px-8 lg:px-16 xl:px-24">
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}
@@ -22,7 +22,7 @@ export default function WizardLayout() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="mx-auto w-full max-w-4xl"
+                className="mx-auto w-full max-w-6xl"
               >
                 <Outlet />
               </motion.div>

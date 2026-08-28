@@ -32,6 +32,7 @@ export default function StepSidebar() {
     <nav
       aria-label="Application progress"
       className="hidden lg:flex w-64 shrink-0 flex-col gap-1 border-r border-sand/70 bg-cream-light/60 px-5 py-8"
+      style={{ minHeight: "100vh" }}
     >
       <p className="mb-6 px-2 font-display text-sm font-bold uppercase tracking-wide text-navy/60">
         Your journey
@@ -91,6 +92,7 @@ export default function StepSidebar() {
           );
         })}
       </ol>
+      <div id="sidebar-slot" className="mt-auto pt-6" />
     </nav>
   );
 }

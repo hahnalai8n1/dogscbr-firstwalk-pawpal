@@ -18,6 +18,16 @@ const PAWS = [
   { top: "80%", left: "38%", size: 14, rotate: -20 },
   { top: "92%", left: "80%", size: 24, rotate: -12 },
   { top: "96%", left: "18%", size: 16, rotate: 12 },
+  { top: "4%", left: "56%", size: 14, rotate: -6 },
+  { top: "18%", left: "8%", size: 16, rotate: 20 },
+  { top: "26%", left: "78%", size: 20, rotate: -16 },
+  { top: "34%", left: "48%", size: 14, rotate: 12 },
+  { top: "46%", left: "84%", size: 16, rotate: -24 },
+  { top: "50%", left: "6%", size: 18, rotate: 8 },
+  { top: "58%", left: "68%", size: 14, rotate: -10 },
+  { top: "66%", left: "36%", size: 16, rotate: 22 },
+  { top: "78%", left: "62%", size: 18, rotate: -18 },
+  { top: "88%", left: "48%", size: 14, rotate: 14 },
 ];
 
 export default function PawBackground() {

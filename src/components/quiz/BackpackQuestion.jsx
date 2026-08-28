@@ -38,7 +38,7 @@ export default function BackpackQuestion({ options, selected, status, correct, o
               })}
           </div>
           <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-navy/40">
-            drag items here
+            tap or drag items here
           </p>
         </div>
       </div>
