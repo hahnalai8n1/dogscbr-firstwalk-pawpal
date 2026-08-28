@@ -75,7 +75,7 @@ export default function Landing() {
           onSubmit={handleSubmit}
           className="mt-10 w-full space-y-5 rounded-3xl border border-sand/70 bg-white/80 p-6 shadow-xl shadow-navy/5 backdrop-blur sm:p-8"
         >
-          <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+          <div className="grid min-w-0 grid-cols-1 gap-5 sm:grid-cols-2">
             <Field label="Full name" required error={touched && !form.fullName.trim()}>
               <input
                 className="input"
@@ -104,7 +104,7 @@ export default function Landing() {
             <Field label="Date of birth" required error={touched && !form.dob}>
               <input
                 type="date"
-                className="input max-w-[95%]"
+                className="input"
                 value={form.dob}
                 onChange={(e) => setField("dob", e.target.value)}
                 max={new Date().toISOString().slice(0, 10)}

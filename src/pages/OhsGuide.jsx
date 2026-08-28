@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import PageShell from "../components/PageShell";
 import Button from "../components/Button";
-import GuideAssistant from "../components/GuideAssistant";
 import { useWizard } from "../context/WizardContext";
 import { guideCards } from "../lib/guideCards";
 
@@ -30,7 +29,6 @@ export default function OhsGuide() {
   }
 
   return (
-    <>
     <PageShell
       eyebrow="Step 2 of 6"
       title="OHS Guidelines"
@@ -99,7 +97,5 @@ export default function OhsGuide() {
         )}
       </div>
     </PageShell>
-    <GuideAssistant />
-    </>
   );
 }
