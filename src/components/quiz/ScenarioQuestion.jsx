@@ -22,6 +22,21 @@ import {
   X,
 } from "lucide-react";
 import pullingScene from "../../assets/quiz-pulling-first-person.webp";
+import leadHoldScene from "../../assets/quiz-lead-hold-first-person.webp";
+import harnessScene from "../../assets/quiz-harness-first-person.webp";
+import routeScene from "../../assets/quiz-route-choice-first-person.webp";
+import groundItemScene from "../../assets/quiz-ground-item-first-person.webp";
+
+function ScenarioImage({ src, alt, caption }) {
+  return (
+    <figure className="mx-auto w-full max-w-lg overflow-hidden rounded-3xl border border-sand bg-white">
+      <img src={src} alt={alt} className="aspect-[3/2] w-full object-cover" />
+      <figcaption className="border-t border-sand bg-cream-light px-4 py-2 text-xs text-navy/60">
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
 
 function ChoiceButton({ option, selected, status, correct, onToggle, children, className = "" }) {
   const isCorrect = correct.includes(option.id);
@@ -96,16 +111,11 @@ function Pulling({ question, selected, status, onToggle }) {
   const icons = { tug: Undo2, carry: Hand, wait: Timer };
   return (
     <div className="space-y-4">
-      <figure className="overflow-hidden rounded-3xl border border-sand bg-white">
-        <img
-          src={pullingScene}
-          alt="Three first-person scenes: pulling the lead sharply, trying to lift the dog, and calmly holding the lead without tugging."
-          className="aspect-[3/2] w-full object-cover"
-        />
-        <figcaption className="border-t border-sand bg-cream-light px-4 py-2 text-xs text-navy/60">
-          Compare the three actions, then choose the safest response.
-        </figcaption>
-      </figure>
+      <ScenarioImage
+        src={pullingScene}
+        alt="Three first-person scenes: pulling one continuous lead sharply with two hands, trying to lift the dog, and calmly gripping the lead with a hand through its wrist loop."
+        caption="Compare the three actions, then choose the safest response."
+      />
       <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose how to respond when the dog pulls">
         {question.options.map((option) => {
           const Icon = icons[option.id];
@@ -134,35 +144,51 @@ function Distance({ question, selected, status, onToggle }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-3xl border border-sand bg-white p-5">
-        <div className="relative mx-auto h-28 max-w-xl overflow-hidden rounded-2xl bg-tan/20" aria-hidden="true">
-          <Dog className="absolute bottom-4 left-5 text-navy" size={42} />
-          <motion.div animate={{ left: `${Math.min(78, 28 + value * 4)}%` }} className="absolute bottom-4 text-navy">
-            <Dog size={42} />
-          </motion.div>
-          <div className="absolute inset-x-14 bottom-2 border-b-2 border-dashed border-navy/30" />
-          <motion.span animate={{ left: `${Math.min(69, 18 + value * 3.7)}%` }} className="absolute bottom-1 rounded-full bg-navy px-2 py-0.5 text-[10px] font-bold text-cream">
-            {value} m
-          </motion.span>
+      {active === "any" ? (
+        <div
+          className="flex min-h-52 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-navy/25 bg-tan/20 p-6 text-center"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white text-navy shadow-sm" aria-hidden="true">
+            <Ban size={32} />
+          </span>
+          <p className="font-display text-xl font-extrabold text-navy">No set distance</p>
+          <p className="mt-1 max-w-sm text-sm text-navy/65">
+            This choice treats the distance between dogs as irrelevant.
+          </p>
         </div>
-        <label htmlFor="dog-distance" className="mt-4 block text-sm font-bold text-navy">
-          Move the dogs apart: <output>{value} metres</output>
-        </label>
-        <input
-          id="dog-distance"
-          type="range"
-          min="3"
-          max="12"
-          step="1"
-          value={value}
-          disabled={status === "correct"}
-          onChange={chooseFromSlider}
-          className="mt-3 w-full accent-navy"
-        />
-        <div className="mt-1 flex justify-between text-xs font-semibold text-navy/50" aria-hidden="true">
-          <span>3 m</span><span>5 m</span><span>10 m</span><span>12 m</span>
+      ) : (
+        <div className="rounded-3xl border border-sand bg-white p-5">
+          <div className="relative mx-auto h-28 max-w-xl overflow-hidden rounded-2xl bg-tan/20" aria-hidden="true">
+            <Dog className="absolute bottom-4 left-5 text-navy" size={42} />
+            <motion.div animate={{ left: `${Math.min(78, 28 + value * 4)}%` }} className="absolute bottom-4 text-navy">
+              <Dog size={42} />
+            </motion.div>
+            <div className="absolute inset-x-14 bottom-2 border-b-2 border-dashed border-navy/30" />
+            <motion.span animate={{ left: `${Math.min(69, 18 + value * 3.7)}%` }} className="absolute bottom-1 rounded-full bg-navy px-2 py-0.5 text-[10px] font-bold text-cream">
+              {value} m
+            </motion.span>
+          </div>
+          <label htmlFor="dog-distance" className="mt-4 block text-sm font-bold text-navy">
+            Move the dogs apart: <output>{value} metres</output>
+          </label>
+          <input
+            id="dog-distance"
+            type="range"
+            min="3"
+            max="12"
+            step="1"
+            value={value}
+            disabled={status === "correct"}
+            onChange={chooseFromSlider}
+            className="mt-3 w-full accent-navy"
+          />
+          <div className="mt-1 flex justify-between text-xs font-semibold text-navy/50" aria-hidden="true">
+            <span>3 m</span><span>5 m</span><span>10 m</span><span>12 m</span>
+          </div>
         </div>
-      </div>
+      )}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="Distance answer options">
         {question.options.map((option) => (
           <ChoiceButton key={option.id} option={option} selected={selected.includes(option.id)} status={status} correct={question.correct} onToggle={onToggle} className="min-h-20 p-3 text-center">
@@ -181,13 +207,20 @@ function LeadHold({ question, selected, status, onToggle }) {
     "loop-only": <><Link2 size={31} /><span className="h-1 w-8 rounded bg-current opacity-40" /></>,
   };
   return (
-    <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose the correct way to hold the lead">
-      {question.options.map((option) => (
-        <ChoiceButton key={option.id} option={option} selected={selected.includes(option.id)} status={status} correct={question.correct} onToggle={onToggle} className="min-h-36 text-center">
-          <span className="mb-4 flex h-16 items-center justify-center gap-1 rounded-xl bg-tan/25" aria-hidden="true">{visual[option.id]}</span>
-          {option.label}
-        </ChoiceButton>
-      ))}
+    <div className="space-y-4">
+      <ScenarioImage
+        src={leadHoldScene}
+        alt="Three first-person scenes: the lead wrapped tightly around a hand, a hand through the loop while gripping the lead, and fingertips holding only the loop."
+        caption="Look closely at how the loop and lead are held in each scene."
+      />
+      <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose the correct way to hold the lead">
+        {question.options.map((option) => (
+          <ChoiceButton key={option.id} option={option} selected={selected.includes(option.id)} status={status} correct={question.correct} onToggle={onToggle} className="min-h-36 text-center">
+            <span className="mb-4 flex h-16 items-center justify-center gap-1 rounded-xl bg-tan/25" aria-hidden="true">{visual[option.id]}</span>
+            {option.label}
+          </ChoiceButton>
+        ))}
+      </div>
     </div>
   );
 }
@@ -242,7 +275,7 @@ function WaterTimeline({ question, selected, status, onToggle }) {
                   animate={{ scale: isSelected ? 1.2 : 1 }}
                   className={`mb-3 flex h-10 w-10 items-center justify-center rounded-full border-2 ${(status === "correct" && isCorrect) || revealCorrect ? "border-emerald-500 bg-emerald-100" : revealWrong ? "border-rose-400 bg-rose-100" : isSelected ? "border-navy bg-navy text-cream" : "border-sand bg-white group-hover:border-navy/50"}`}
                 >
-                  {option.id === "30m" ? <Droplets size={18} /> : <Clock3 size={18} />}
+                  <Clock3 size={18} />
                 </motion.span>
                 {option.label}
               </button>
@@ -259,13 +292,11 @@ function Harness({ question, selected, status, onToggle }) {
   const icons = { "self-fix": Repeat2, remove: Ban, staff: PhoneCall };
   return (
     <div className="space-y-4">
-      <div className="mx-auto flex h-36 max-w-lg items-center justify-center rounded-3xl border border-sand bg-tan/20" aria-hidden="true">
-        <div className="relative text-navy">
-          <Dog size={84} />
-          <motion.span animate={{ scale: [1, 1.08, 1] }} transition={{ repeat: Infinity, duration: 1.8 }} className="absolute left-4 top-7 h-8 w-12 rounded-full border-4 border-dashed border-amber" />
-        </div>
-        <ShieldAlert className="ml-5 text-amber" size={34} />
-      </div>
+      <ScenarioImage
+        src={harnessScene}
+        alt="Three first-person scenes: adjusting a loose harness, removing the harness, and keeping the dog secure while calling staff."
+        caption="The harness is loose. Compare the three possible responses."
+      />
       <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose what to do with a loose harness">
         {question.options.map((option) => {
           const Icon = icons[option.id];
@@ -277,19 +308,13 @@ function Harness({ question, selected, status, onToggle }) {
 }
 
 function RouteMap({ question, selected, status, onToggle }) {
-  const approved = selected.includes("approved");
   return (
     <div className="space-y-4">
-      <div className="relative mx-auto h-52 max-w-xl overflow-hidden rounded-3xl border border-sand bg-[#f4ead5]" aria-hidden="true">
-        <div className="absolute inset-y-0 left-[48%] w-12 rotate-12 bg-white/80" />
-        <div className="absolute inset-x-0 top-[52%] h-10 -rotate-6 bg-white/80" />
-        <div className="absolute left-6 top-5 h-16 w-24 rounded-2xl bg-emerald-100" />
-        <div className="absolute bottom-5 right-7 h-20 w-28 rounded-2xl bg-emerald-100" />
-        <motion.div animate={{ x: approved ? [0, 90, 165] : [0, 45, 25], y: approved ? [0, 38, 66] : [0, -20, 35] }} transition={{ duration: 1.3 }} className="absolute left-[30%] top-[30%] text-navy">
-          <MapPin size={30} fill="currentColor" />
-        </motion.div>
-        <div className="absolute bottom-3 left-3 rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-navy">Public route</div>
-      </div>
+      <ScenarioImage
+        src={routeScene}
+        alt="Two first-person scenes: an unmarked path beside private property and a maintained public park route."
+        caption="Compare the unmarked track with the approved public walking route."
+      />
       <div className="grid gap-3 sm:grid-cols-2" role="group" aria-label="Choose where you can walk the dog">
         {question.options.map((option) => <ChoiceButton key={option.id} option={option} selected={selected.includes(option.id)} status={status} correct={question.correct} onToggle={onToggle} className="min-h-20">{option.id === "approved" ? <MapPin className="mb-2" size={23} /> : <Ban className="mb-2" size={23} />}{option.label}</ChoiceButton>)}
       </div>
@@ -318,12 +343,11 @@ function Eating({ question, selected, status, onToggle }) {
   const icons = { grab: Hand, move: ShieldAlert, tug: Undo2 };
   return (
     <div className="space-y-4">
-      <div className="relative mx-auto h-40 max-w-lg overflow-hidden rounded-3xl border border-sand bg-tan/20" aria-hidden="true">
-        <Dog className="absolute bottom-5 right-16 text-navy" size={74} />
-        <motion.div animate={{ x: [0, 16, 4], y: [0, 8, 2] }} transition={{ repeat: Infinity, duration: 2.2 }} className="absolute bottom-8 right-8 h-5 w-7 rotate-12 rounded bg-amber" />
-        <div className="absolute bottom-0 left-0 right-0 h-7 bg-sand/70" />
-        <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-bold text-navy">What happens next?</span>
-      </div>
+      <ScenarioImage
+        src={groundItemScene}
+        alt="Three first-person scenes: reaching toward the dog's mouth, moving the dog away while calling staff, and forcefully tugging the lead."
+        caption="The dog notices food on the ground. Choose the safest next action."
+      />
       <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose what to do if the dog tries to eat something">
         {question.options.map((option) => {
           const Icon = icons[option.id];

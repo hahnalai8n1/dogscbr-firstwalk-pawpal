@@ -20,7 +20,7 @@
   :root {
     /* Adjust these two values to tune the whole mobile/desktop type scale. */
     --app-font-size-mobile: 16px;
-    --app-font-size-desktop: 18px;
+    --app-font-size-desktop: 16px;
   }
   html {
     font-size: var(--app-font-size-mobile);
@@ -52,5 +52,22 @@
        iOS Safari auto-zoom the whole page on focus, and that zoom sticks
        around after an SPA route change since there's no real page reload. */
     @apply w-full min-w-0 rounded-xl border border-sand bg-white px-3.5 py-2.5 text-base text-navy placeholder:text-navy/30 outline-none transition-colors focus:border-navy focus:ring-2 focus:ring-navy/15;
+  }
+
+  /* Real iOS Safari gives its native date control a wider intrinsic size than
+     desktop device emulation does. Constrain both the host input and WebKit's
+     internal date value so it cannot push beyond its grid column/card. */
+  .input[type="date"] {
+    display: block;
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    overflow: hidden;
+  }
+
+  .input[type="date"]::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
   }
 }

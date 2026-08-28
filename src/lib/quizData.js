@@ -5,7 +5,7 @@ import {
   Ruler,
   Repeat, CircleDashed,
   ThumbsUp, Trees, Lock,
-  Droplets, Clock, FlagTriangleRight,
+  Clock,
   Wrench, Unlock, PhoneCall,
   Globe, MapPinned,
   User, Ban, Users,
@@ -15,12 +15,12 @@ import {
 // Sourced from DogsCBR's existing "OHS Program Test" Google Form + OHS Guidelines doc.
 // Every correct answer and hint is a direct paraphrase of the official OHS Guidelines,
 // so the quiz stays a faithful (just friendlier) version of the real vetting test.
-// `render: "backpack"` opts into the drag-to-pack interaction. Every other
+// `render: "backpack"` opts into the tap-to-pack interaction. Every other
 // question is mapped to its own accessible scenario in ScenarioQuestion.jsx.
 export const quizQuestions = [
   {
     id: "bring",
-    prompt: "Tap or drag what you need into the backpack before heading out.",
+    prompt: "Tap everything you need to pack before heading out.",
     type: "multi",
     render: "backpack",
     options: [
@@ -103,10 +103,10 @@ export const quizQuestions = [
     type: "single",
     render: "tiles",
     options: [
-      { id: "5m", label: "Every 5 minutes", icon: Timer },
-      { id: "30m", label: "Every 30 minutes", icon: Droplets },
+      { id: "5m", label: "Every 5 minutes", icon: Clock },
+      { id: "30m", label: "Every 30 minutes", icon: Clock },
       { id: "1h", label: "Every hour", icon: Clock },
-      { id: "end", label: "Once the walk is finished", icon: FlagTriangleRight },
+      { id: "end", label: "Once the walk is finished", icon: Clock },
     ],
     correct: ["30m"],
     hint: "🐾 On our longer walks (60+ minutes), I get thirsty — offer me water every 30 minutes.",

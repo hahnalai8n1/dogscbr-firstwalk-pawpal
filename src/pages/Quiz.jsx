@@ -112,7 +112,6 @@ export default function Quiz() {
     <PageShell
       eyebrow="Step 3 of 6"
       title="OHS Quiz"
-      subtitle="All answers are in the guidelines you just read. 100% required to move on — no shame in a retry."
       hideNext
       onBack={() => navigate("/apply/ohs-guide")}
     >

@@ -1,44 +1,45 @@
-import { useRef } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Backpack, Check, X } from "lucide-react";
 
 export default function BackpackQuestion({ options, selected, status, correct, onToggle, disabled }) {
-  const bagRef = useRef(null);
-
-  function handleDragEnd(id, event, info) {
-    const bag = bagRef.current?.getBoundingClientRect();
-    if (!bag) return;
-    const { x, y } = info.point;
-    const inside = x >= bag.left && x <= bag.right && y >= bag.top && y <= bag.bottom;
-    const alreadyPacked = selected.includes(id);
-    if (inside && !alreadyPacked) onToggle(id);
-  }
-
   return (
     <div>
       <div className="relative mb-6 flex justify-center">
         <div
-          ref={bagRef}
-          className="flex h-40 w-40 flex-col items-center justify-center rounded-3xl border-4 border-dashed border-navy/25 bg-tan/20"
+          className="relative flex h-44 w-44 items-center justify-center"
+          role="status"
+          aria-live="polite"
+          aria-label={selected.length ? `Packed: ${options.filter((option) => selected.includes(option.id)).map((option) => option.label).join(", ")}` : "Backpack is empty"}
         >
-          <Backpack size={30} className="mb-2 text-navy/40" />
-          <div className="flex flex-wrap justify-center gap-1.5 px-3">
-            {options
-              .filter((o) => selected.includes(o.id))
-              .map((o) => {
-                const Icon = o.icon;
-                return (
-                  <span
-                    key={o.id}
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-cream"
-                  >
-                    <Icon size={14} />
-                  </span>
-                );
-              })}
+          <Backpack
+            aria-hidden="true"
+            size={172}
+            strokeWidth={1.35}
+            className="absolute inset-0 text-navy"
+          />
+          <div className="absolute inset-x-9 top-[4.35rem] flex min-h-14 flex-wrap content-center justify-center gap-1.5 px-1">
+            <AnimatePresence initial={false}>
+              {options
+                .filter((option) => selected.includes(option.id))
+                .map((option) => {
+                  const Icon = option.icon;
+                  return (
+                    <motion.span
+                      key={option.id}
+                      initial={{ opacity: 0, scale: 0.5, y: -8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.5, y: -8 }}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-amber text-navy shadow-sm"
+                      aria-hidden="true"
+                    >
+                      <Icon size={17} />
+                    </motion.span>
+                  );
+                })}
+            </AnimatePresence>
           </div>
-          <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-navy/40">
-            tap or drag items here
+          <p className="absolute -bottom-1 whitespace-nowrap text-[10px] font-bold uppercase tracking-wide text-navy/45" aria-hidden="true">
+            Tap an option to pack or unpack it
           </p>
         </div>
       </div>
@@ -53,19 +54,14 @@ export default function BackpackQuestion({ options, selected, status, correct, o
           const locked = status === "correct" && isCorrectOpt;
 
           return (
-            <motion.button
+            <button
               key={opt.id}
               type="button"
-              drag={!disabled}
-              dragSnapToOrigin
-              dragElastic={0.4}
-              whileDrag={{ scale: 1.1, zIndex: 20 }}
-              onDragEnd={(event, info) => handleDragEnd(opt.id, event, info)}
               onClick={() => !disabled && onToggle(opt.id)}
               disabled={disabled}
               aria-pressed={isSelected}
               aria-label={`${opt.label}${revealWrong ? ", incorrect" : ""}${locked || revealCorrect ? ", correct" : ""}`}
-              className={`relative flex w-20 cursor-grab flex-col items-center gap-1.5 rounded-2xl border-2 bg-white px-2 py-3 text-center text-xs font-medium shadow-sm active:cursor-grabbing ${
+              className={`relative flex w-20 flex-col items-center gap-1.5 rounded-2xl border-2 bg-white px-2 py-3 text-center text-xs font-medium shadow-sm transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber/50 ${
                 locked
                   ? "border-emerald-400 bg-emerald-50 text-emerald-900"
                   : revealWrong
@@ -77,15 +73,15 @@ export default function BackpackQuestion({ options, selected, status, correct, o
                   : "border-sand text-navy/80"
               }`}
             >
-              {revealWrong && <X size={12} className="absolute right-1 top-1 text-rose-500" />}
+              {revealWrong && <X aria-hidden="true" size={12} className="absolute right-1 top-1 text-rose-500" />}
               {(locked || revealCorrect) && (
-                <Check size={12} className="absolute right-1 top-1 text-emerald-500" />
+                <Check aria-hidden="true" size={12} className="absolute right-1 top-1 text-emerald-500" />
               )}
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-tan/50 text-navy">
                 <Icon size={18} />
               </span>
               {opt.label}
-            </motion.button>
+            </button>
           );
         })}
       </div>
