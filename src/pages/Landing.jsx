@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { PawPrint, ArrowRight, HeartHandshake } from "lucide-react";
 import Button from "../components/Button";
 import PawBackground from "../components/PawBackground";
+import DateOfBirthSelect from "../components/DateOfBirthSelect";
 import { useWizard } from "../context/WizardContext";
 import dogscbrLogo from "../assets/dogscbr-logo.jpg";
 
@@ -101,14 +102,13 @@ export default function Landing() {
                 placeholder="04xx xxx xxx"
               />
             </Field>
-            <Field label="Date of birth" required error={touched && !form.dob}>
-              <input
-                type="date"
-                className="input"
-                value={form.dob}
-                onChange={(e) => setField("dob", e.target.value)}
-                max={new Date().toISOString().slice(0, 10)}
-              />
+            <Field
+              label="Date of birth"
+              required
+              error={touched && !form.dob}
+              className="sm:col-span-2"
+            >
+              <DateOfBirthSelect value={form.dob} onChange={(v) => setField("dob", v)} />
             </Field>
           </div>
 
@@ -191,9 +191,9 @@ export default function Landing() {
   );
 }
 
-function Field({ label, required, error, children }) {
+function Field({ label, required, error, children, className = "" }) {
   return (
-    <label className="block min-w-0 text-sm">
+    <label className={`block min-w-0 text-sm ${className}`}>
       <span className="mb-1 flex items-center gap-1 font-medium text-navy/80">
         {label}
         {required && <span className="text-amber">*</span>}
