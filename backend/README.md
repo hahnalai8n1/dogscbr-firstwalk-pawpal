@@ -79,44 +79,24 @@ Either way:
    - The signed form appears in the `Signed Induction Forms` Drive folder.
    - Both the staff notification and applicant confirmation emails arrive.
 
-7. Copy the deployment URL (ends in `/exec`). Add it in two places, since
-   local dev and the live site read it separately:
-   - Locally: paste it into `.env` as `VITE_APPS_SCRIPT_URL` (copy
-     `.env.example` if you don't have a `.env` yet).
-   - Live site: in the Cloudflare dashboard, open the Pages project →
-     **Settings → Environment variables**, add `VITE_APPS_SCRIPT_URL` with
-     the same value for both **Production** and **Preview**, then go to
-     **Deployments** and **Retry deployment** on the latest one (or just
-     push a commit) — Cloudflare only picks up a new environment variable
-     on the _next_ build, not retroactively.
-8. Send a test application through the site (local or live) and check: a
-   new row appears in the `Register` tab, files land in the "Community
-   Member IDs" and "Signed Induction Forms" Drive folders, and both emails
-   arrive.
-
-If this web app is already deployed and you change `Code.gs`, use **Deploy →
+If the web app is already deployed and you change `Code.gs`, select **Deploy →
 Manage deployments → Edit → New version → Deploy**. The existing `/exec` URL
-continues to work. Changing only the `GEMINI_API_KEY` Script Property later
-does not require another version because the deployed code reads it at runtime.
+will continue to work.
+
+Changing only a Script Property value does not require a new deployment,
+because the deployed code reads Script Properties at runtime.
 
 ## Where to check things day-to-day
 
 Once it's live, this is where everything ends up — no separate admin panel:
 
-| Looking for…                                      | Where                                                                                             |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| A new applicant's details                         | The `Register` tab in the Google Sheet                                                            |
-| Their uploaded photo ID                           | Drive → `Community Member IDs`                                                                    |
-| Their signed induction form                       | Drive → `Signed Induction Forms`                                                                  |
-| The notification email                            | Whatever inbox `STAFF_EMAIL` points to                                                            |
-| Whether an email actually sent, or why one failed | Apps Script editor → clock icon on the left (**Executions**) → click the most recent `doPost` run |
-
-> > > > > > > ec66d43 (update README and backend README)
-
-If this web app is already deployed and you change `Code.gs`, use **Deploy →
-Manage deployments → Edit → New version → Deploy**. The existing `/exec` URL
-continues to work. Changing only the `GEMINI_API_KEY` Script Property later
-does not require another version because the deployed code reads it at runtime.
+| Looking for…                               | Where                                                                     |
+| ------------------------------------------ | ------------------------------------------------------------------------- |
+| A new applicant's details                  | The `Register` tab in the Google Sheet                                    |
+| Their uploaded photo ID                    | Drive → `Community Member IDs`                                            |
+| Their signed induction form                | Drive → `Signed Induction Forms`                                          |
+| The notification email                     | The inbox configured as `STAFF_EMAIL`                                     |
+| Whether an email was sent or why it failed | Apps Script editor → **Executions** → select the most recent `doPost` run |
 
 ## Notes
 

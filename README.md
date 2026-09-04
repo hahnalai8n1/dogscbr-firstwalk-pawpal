@@ -23,8 +23,6 @@ Built by **Team Tian³** for AI Collective Canberra's **Hack for Humanity 2026**
 
 ## Screenshots
 
-## Screenshots
-
 ### Apply
 
 <img width="100%" alt="PawPal application form" src="https://github.com/user-attachments/assets/f9d3c295-bfb9-4505-af87-fbddac60343c" />
