@@ -54,22 +54,31 @@ Either way:
 4. Click **Deploy → New deployment → Web app**.
    - Execute as: **Me**
    - Who has access: **Anyone**
-   - You'll hit a **"Google hasn't verified this app"** screen when
-     authorizing — that's expected for any personal script requesting
-     Gmail/Drive access, not an error. Click **Advanced → Go to (project
-     <<<<<<< HEAD
-     name) (unsafe)** → **Allow**. It's safe: this is code you (or your
-     teammate) wrote, running under your own account — nothing is sent
-     anywhere else.
-5. Copy the deployment URL (ends in `/exec`) into the frontend's `.env` as
-   `VITE_APPS_SCRIPT_URL`.
-6. Send a test application through the site and check: a new row appears in
-   a "Register" tab, files land in the "Community Member IDs" and "Signed
-   Induction Forms" Drive folders, and both emails arrive.
-   =======
-   name) (unsafe)** → **Allow\*\*. Only continue if you trust and have reviewed this repository's Apps Script
-   source. Confirm the requested Gmail, Drive and Sheets permissions before
-   authorising it.
+   - Select **Deploy** and review the requested Gmail, Drive and Sheets
+     permissions.
+   - If Google displays a **"Google hasn't verified this app"** warning,
+     only continue if you trust and have reviewed this repository's Apps
+     Script source. Select **Advanced → Go to (project name) (unsafe) →
+     Allow**.
+
+5. Copy the deployment URL ending in `/exec` and add it in two places:
+   - **Local development:** copy `.env.example` to `.env`, then set:
+
+     ```text
+     VITE_APPS_SCRIPT_URL=https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+     ```
+
+   - **Cloudflare Pages:** open the Pages project, go to **Settings →
+     Environment variables**, and add `VITE_APPS_SCRIPT_URL` for both
+     **Production** and **Preview**. Then trigger a new deployment so the
+     updated variable is included in the build.
+
+6. Send a test application through the local or deployed site and confirm:
+   - A new row appears in the `Register` tab.
+   - The uploaded ID appears in the `Community Member IDs` Drive folder.
+   - The signed form appears in the `Signed Induction Forms` Drive folder.
+   - Both the staff notification and applicant confirmation emails arrive.
+
 7. Copy the deployment URL (ends in `/exec`). Add it in two places, since
    local dev and the live site read it separately:
    - Locally: paste it into `.env` as `VITE_APPS_SCRIPT_URL` (copy
