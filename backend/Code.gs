@@ -16,7 +16,7 @@ const SHEET_ID = "";
 const SHEET_NAME = "Register";
 const ID_FOLDER_NAME = "Community Member IDs";
 const SIGNATURE_FOLDER_NAME = "Signed Induction Forms";
-const STAFF_EMAIL = "x85561@gmail.com"; // TODO: swap for the real DogsCBR staff inbox before going live
+const STAFF_EMAIL = "staff@example.org"; // TODO: set to the real DogsCBR staff inbox before deploying
 const CM_NUMBER_PREFIX = "CM";
 const CM_NUMBER_START = 1001;
 
@@ -184,7 +184,7 @@ function sendStaffSummaryEmail_(cmNumber, data, idFileUrl, signatureUrl) {
 }
 
 function sendApplicantConfirmationEmail_(cmNumber, data) {
-  const subject = "You're Officially Part of the Dogs Canberra Walking Program! 🐾";
+  const subject = "You're Officially Part of the Dogs Canberra Walking Program!";
   const body = [
     `Hi ${data.fullName.split(" ")[0]},`,
     ``,
