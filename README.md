@@ -23,9 +23,19 @@ Built by **Team Tian³** for AI Collective Canberra's **Hack for Humanity 2026**
 
 ## Screenshots
 
-| Apply                                                                                                                                                 | OHS Quiz                                                                                                                                                  | Confirmation                                                                                                                                                 |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <img width="1677" height="912" alt="PawPal application form" src="https://github.com/user-attachments/assets/f9d3c295-bfb9-4505-af87-fbddac60343c" /> | <img width="1677" height="912" alt="PawPal interactive OHS quiz" src="https://github.com/user-attachments/assets/db4ccc1f-4281-4777-b2a4-5d62af4332dd" /> | <img width="1677" height="912" alt="PawPal membership confirmation" src="https://github.com/user-attachments/assets/1b3a78ed-bbe2-4b2e-8a9a-cbebdc435d8f" /> |
+## Screenshots
+
+### Apply
+
+<img width="100%" alt="PawPal application form" src="https://github.com/user-attachments/assets/f9d3c295-bfb9-4505-af87-fbddac60343c" />
+
+### Interactive OHS Quiz
+
+<img width="100%" alt="PawPal interactive OHS quiz" src="https://github.com/user-attachments/assets/db4ccc1f-4281-4777-b2a4-5d62af4332dd" />
+
+### Membership Confirmation
+
+<img width="100%" alt="PawPal membership confirmation" src="https://github.com/user-attachments/assets/1b3a78ed-bbe2-4b2e-8a9a-cbebdc435d8f" />
 
 ## The Problem
 
